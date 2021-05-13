@@ -12,11 +12,11 @@ html {
   background-color: #131516;
   padding: 32px;
   display: inline-block;
+  opacity: 0.9;
 }
 
 .main a {
   color: #ffc700;
-
 }
 
 hr{
