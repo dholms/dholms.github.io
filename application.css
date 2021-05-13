@@ -13,6 +13,7 @@ html {
   padding: 32px;
   display: inline-block;
   opacity: 0.9;
+  max-width: 60em;
 }
 
 .main a {
