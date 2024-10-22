@@ -608,7 +608,9 @@
     <div class="profile-container">
         <!-- Previous profile header remains the same -->
         <div class="profile-header">
-            <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:yk4dd2qkboz2yv6tpubpc6co/bafkreidc5amuohqqhturw5xeuswgtyrywkpn4z4v7zwbk4f6cdshl5c2ne@jpeg" alt="Profile Picture" class="profile-pic">
+            <a class="nostyle" href="https://bsky.app/profile/dholms.xyz">
+              <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:yk4dd2qkboz2yv6tpubpc6co/bafkreidc5amuohqqhturw5xeuswgtyrywkpn4z4v7zwbk4f6cdshl5c2ne@jpeg" alt="Profile Picture" class="profile-pic">
+            </a>
             <div class="profile-info">
                 <h1 class="username-text">dholms.xyz 🫠</h1>
                 <div class="status-indicator">
@@ -632,26 +634,34 @@
         <div class="friends-section">
             <h3>the crew 😎</h3>
             <div class="friends-grid">
+              <a class="nostyle" href="https://bsky.app/profile/haileyok.com">
                 <div class="friend-card">
                     <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:oisofpd7lj26yvgiivf3lxsi/bafkreibzqdxd6ic2osjlzwypynv3mp3alhh2idmh3et7ips4uavcjucy5y@jpeg" alt="Hailey" class="friend-pic">
                     <div class="friend-name">haileyok.com</div>
                     <div class="friend-status">partner in crime</div>
                 </div>
+              </a>
+              <a class="nostyle" href="https://bsky.app/profile/pfrazee.com">
                 <div class="friend-card">
                     <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:ragtjsm2j2vknwkz3zp4oxrd/bafkreicargk4unjh2ncmooytvow5huic2neiffaw63ile7ntznsfbezs5q@jpeg" alt="Paul" class="friend-pic">
                     <div class="friend-name">pfrazee.com</div>
                     <div class="friend-status">arch nemesis</div>
                 </div>
+              </a>
+              <a class="nostyle" href="https://bsky.app/profile/divy.zone">
                 <div class="friend-card">
                     <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:l3rouwludahu3ui3bt66mfvj/bafkreicg6y3mlr3eszmbjm3swyuncwf4ruzohcsvtcbrjzyhkwibtx7nyy@jpeg" alt="Devin" class="friend-pic">
                     <div class="friend-name">divy.zone</div>
                     <div class="friend-status">the viber</div>
                 </div>
+              </a>
+              <a class="nostyle" href="https://bsky.app/profile/jay.bsky.team">
                 <div class="friend-card">
                     <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:oky5czdrnfjpqslsw2a5iclo/bafkreihidru2xruxdxlvvcixc7lbgoudzicjbrdgacdhdhxyfw4yut4nfq@jpeg" alt="Jay" class="friend-pic">
                     <div class="friend-name">jay.bsky.team</div>
                     <div class="friend-status">ring leader</div>
                 </div>
+              </a>
             </div>
         </div>
         <div class="bangers-section">
@@ -822,27 +832,42 @@
 
           // open canvas
           document.querySelector('.doodle-toggle').addEventListener('click', function() {
-            document.querySelector('.doodle-container').classList.add('active')
-            document.querySelector('.doodle-toggle').classList.remove('active')
-            resizeCanvas()
+            openCanvas()
           });
 
           // close canvas
           document.querySelector('#close-button').addEventListener('click', function() {
-            document.querySelector('.doodle-container').classList.remove('active')
-            document.querySelector('.doodle-toggle').classList.add('active')
+            clearCanvas()
+            closeCanvas()
           });
 
           // Post canvas
           document.querySelector('#post-button').addEventListener('click', function() {
             saveCanvas()
+            clearCanvas()
+            closeCanvas()
           });
 
           // Clear canvas
           document.querySelector('#clear-button').addEventListener('click', function() {
-              const dpr = window.devicePixelRatio || 1;
-              ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+            clearCanvas()
           });
+
+          function openCanvas() {
+            document.querySelector('.doodle-container').classList.add('active')
+            document.querySelector('.doodle-toggle').classList.remove('active')
+            resizeCanvas()
+          }
+
+          function closeCanvas() {
+            document.querySelector('.doodle-container').classList.remove('active')
+            document.querySelector('.doodle-toggle').classList.add('active')
+          }
+
+          function clearCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+          }
 
           function saveCanvas() {
             // Convert canvas to base64 string
