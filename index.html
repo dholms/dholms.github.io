@@ -1,53 +1,478 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Daniel Holmgren</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"> 
-	<link rel="stylesheet" type="text/css" href="application.css">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --color-primary: #4A5AF9;
+            --color-secondary: #FF5D3E;
+            --color-accent: #FFB344;
+            --color-pop: #2AC885;
+            --color-soft: #2B3252;
+            --color-bg: #1E1E2E;
+            --color-text: #E9EAFC;
+            --color-muted: #9DA3B6;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(74, 90, 249, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(255, 93, 62, 0.2) 0%, transparent 50%);
+            color: var(--color-text);
+            font-family: 'Space Mono', monospace;
+            line-height: 1.6;
+            padding: var(--spacing-sm);
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            background-color: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(74, 90, 249, 0.3);
+            border-radius: 16px;
+            padding: var(--spacing-md);
+            max-width: 100%;
+            margin: 0 auto;
+            box-shadow: 6px 6px 0 rgba(74, 90, 249, 0.2);
+        }
+
+        .profile-header {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 2px solid rgba(74, 90, 249, 0.3);
+            padding-bottom: var(--spacing-lg);
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 71% 29% 70% 30% / 30% 73% 27% 70%;
+            border: 3px solid var(--color-primary);
+            box-shadow: 
+                6px 6px 0 rgba(74, 90, 249, 0.3),
+                -6px -6px 0 rgba(255, 93, 62, 0.3);
+            transform: rotate(-3deg);
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .username-text {
+            color: var(--color-text);
+            font-weight: 700;
+            font-size: 1.75em;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--spacing-sm);
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        .bio-text {
+            color: var(--color-muted);
+            margin-bottom: var(--spacing-md);
+            font-size: 0.95em;
+            font-family: system-ui, sans-serif;
+        }
+
+        .status-box {
+            background: linear-gradient(135deg, rgba(74, 90, 249, 0.1), rgba(255, 93, 62, 0.1));
+            border: 1px solid rgba(74, 90, 249, 0.2);
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
+            width: 100%;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            color: var(--color-pop);
+            margin-bottom: var(--spacing-sm);
+            font-family: system-ui, sans-serif;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-pop);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .tag {
+            background: var(--color-secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family: 'Space Mono', monospace;
+            transform: rotate(-1deg);
+        }
+
+        .tag:nth-child(2n) {
+            background: var(--color-primary);
+            transform: rotate(1deg);
+        }
+
+        .tag:nth-child(3n) {
+            background: var(--color-pop);
+            transform: rotate(-2deg);
+        }
+
+        .friends-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(74, 90, 249, 0.3);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .friends-section h3 {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.2em;
+            font-family: 'Space Mono', monospace;
+            color: var(--color-accent);
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .friend-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(74, 90, 249, 0.2);
+            border-radius: 8px;
+            padding: var(--spacing-sm);
+            text-align: center;
+            transform: rotate(-1deg);
+            transition: all 0.2s ease;
+        }
+
+        .friend-card:nth-child(2n) {
+            transform: rotate(1deg);
+        }
+
+        .friend-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%;
+            border: 2px solid var(--color-pop);
+            margin: 0 auto var(--spacing-sm);
+        }
+
+        .friend-name {
+            font-size: 0.9em;
+            color: var(--color-text);
+            margin-bottom: 4px;
+            font-family: system-ui, sans-serif;
+        }
+
+        .friend-status {
+            font-size: 0.8em;
+            color: var(--color-muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .bangers-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(74, 90, 249, 0.3);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .bangers-section h3 {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.2em;
+            font-family: 'Space Mono', monospace;
+            color: var(--color-secondary);
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+
+        .banger-card {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(74, 90, 249, 0.2);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-md);
+            transform: rotate(-0.5deg);
+        }
+
+        .update-icon {
+            background: var(--color-soft);
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transform: rotate(-3deg);
+        }
+
+        .update-content {
+            flex-grow: 1;
+            font-family: system-ui, sans-serif;
+        }
+
+        .banger-image {
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(74, 90, 249, 0.2);
+        }
+
+        .banger-stats {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            font-family: 'Space Mono', monospace;
+            color: var(--color-muted);
+            font-size: 0.85em;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mood-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
+        .mood-item {
+            aspect-ratio: 1;
+            background: var(--color-soft);
+            border-radius: 8px;
+            overflow: hidden;
+            transform: rotate(-1deg);
+            border: 2px solid rgba(74, 90, 249, 0.2);
+        }
+
+        .mood-item:nth-child(2n) {
+            transform: rotate(1deg);
+        }
+
+        .mood-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .divider {
+            border: none;
+            height: 6px;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(74, 90, 249, 0.2),
+                rgba(74, 90, 249, 0.2) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            margin: var(--spacing-lg) 0;
+            border-radius: 2px;
+            transform: rotate(-0.5deg);
+        }
+
+        .visitor-counter {
+            text-align: center;
+            color: var(--color-muted);
+            font-size: 0.9em;
+            font-family: 'Space Mono', monospace;
+            transform: rotate(-1deg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .visitor-counter p:last-child {
+            color: var(--color-primary);
+            letter-spacing: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+
+            .status-indicator {
+                justify-content: center;
+            }
+
+            .friends-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: var(--spacing-lg);
+            }
+
+            .profile-container {
+                padding: var(--spacing-lg);
+                max-width: 800px;
+            }
+        }
+
+        @media (hover: hover) {
+            .friend-card:hover {
+                transform: translateY(-4px) rotate(-2deg);
+                border-color: var(--color-pop);
+            }
+
+            .banger-card:hover {
+                transform: translateY(-2px) rotate(-1deg);
+                border-color: var(--color-secondary);
+            }
+
+            .tag:hover {
+                transform: translateY(-2px) rotate(-3deg);
+                background: var(--color-pop);
+                transition: all 0.2s ease;
+            }
+        }
+    </style>
+</head>
 <body>
-  <div class="main">
-    <h1>Daniel Holmgren</h1>
-    <h2>I care about digital sovereignty at the protocol level.</h2>
-    <hr />
-    <p>
-      Currently, I work at <a href="https://blueskyweb.xyz/">Bluesky</a> on a protocol for open and decentralized public conversation.
-    </p>
-    <hr />
-    <p>
-      Previously, I worked at <a href="https://fission.codes/">Fission</a> on a front-end framework for hostless apps with user controlled data. 
-    </p>
-    <p>
-      A few things I did:
-      <ul>
-        <li>build an end-to-end encrypted, distributed filesystem for <a href="https://github.com/fission-suite/webnative">webnative</a></li>
-        <li>author <a href="https://github.com/fission-suite/keystore-idb">keystore-idb</a>, a library for secure key management in the browser</li>
-        <li>deploy and manage a multi-region IPFS cluster of 5 nodes</li>
-        <li>create a <a href="https://github.com/fission-suite/webnative-filecoin">library</a> and <a href="https://github.com/fission-suite/fil-cosigner">backend</a> for secure Filecoin transactions using aggregated bls12-381 signatures</li>
-      </ul>
-    </p>
-    <hr />
-    <p>
-      Previously, I co-founded <a href="http://axon.science/">Axon</a>: a protocol & platform for collaboration on scientific data.
-    </p>
-    <p>
-      A few things I did:
-      <ul>
-        <li>designed and built a distributed data collaboration <a href="https://github.com/AxonNetwork/protocol">protocol</a> on top of Ethereum, libp2p and git</li>
-        <li>built a <a href="https://github.com/AxonNetwork/monorepo/tree/master/packages/desktop-app">desktop app</a>, <a href="https://github.com/AxonNetwork/monorepo/tree/master/packages/webapp">web app</a>, and <a href="https://github.com/AxonNetwork/monorepo/tree/master/packages/server">backend</a></li>
-      </ul>
-    </p>
-    <hr />
-    <p>
-      I made <a href="https://github.com/dholms/pass-the-aux">Pass the Aux</a> so I could listen to music with friends
-    </p>
-    <hr />
-    <p>
-      I also like books, chess, rock climbing, and music.
-    </p>
-    <p>
-      Find me on <a href="https://github.com/dholms">Github</a>
-    </p>
-  </div>
+    <div class="profile-container">
+        <!-- Previous profile header remains the same -->
+        <div class="profile-header">
+            <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:yk4dd2qkboz2yv6tpubpc6co/bafkreidc5amuohqqhturw5xeuswgtyrywkpn4z4v7zwbk4f6cdshl5c2ne@jpeg" alt="Profile Picture" class="profile-pic">
+            <div class="profile-info">
+                <h1 class="username-text">dholms.xyz 🫠</h1>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    cruisin the atmosphere
+                </div>
+                <p class="bio-text">
+                    protocol dreaming // atmosphere optimist // 
+                    bsky team 🌅 
+                </p>
+                <div class="status-box">
+                    <div class="tags-container">
+                        <span class="tag">#atproto</span>
+                        <span class="tag">#dev</span>
+                        <span class="tag">#bluesky</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="friends-section">
+            <h3>the crew 😎</h3>
+            <div class="friends-grid">
+                <div class="friend-card">
+                    <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:oisofpd7lj26yvgiivf3lxsi/bafkreibzqdxd6ic2osjlzwypynv3mp3alhh2idmh3et7ips4uavcjucy5y@jpeg" alt="Hailey" class="friend-pic">
+                    <div class="friend-name">haileyok.com</div>
+                    <div class="friend-status">partner in crime</div>
+                </div>
+                <div class="friend-card">
+                    <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:ragtjsm2j2vknwkz3zp4oxrd/bafkreicargk4unjh2ncmooytvow5huic2neiffaw63ile7ntznsfbezs5q@jpeg" alt="Paul" class="friend-pic">
+                    <div class="friend-name">pfrazee.com</div>
+                    <div class="friend-status">arch nemesis</div>
+                </div>
+                <div class="friend-card">
+                    <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:l3rouwludahu3ui3bt66mfvj/bafkreicg6y3mlr3eszmbjm3swyuncwf4ruzohcsvtcbrjzyhkwibtx7nyy@jpeg" alt="Devin" class="friend-pic">
+                    <div class="friend-name">divy.zone</div>
+                    <div class="friend-status">the viber</div>
+                </div>
+                <div class="friend-card">
+                    <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:oky5czdrnfjpqslsw2a5iclo/bafkreihidru2xruxdxlvvcixc7lbgoudzicjbrdgacdhdhxyfw4yut4nfq@jpeg" alt="Jay" class="friend-pic">
+                    <div class="friend-name">jay.bsky.team</div>
+                    <div class="friend-status">ring leader</div>
+                </div>
+            </div>
+        </div>
+        <div class="bangers-section">
+            <h3>hall of fame 🔥</h3>
+            <div class="banger-card">
+                <div class="update-content">
+                    <img class="banger-image" src="https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:yk4dd2qkboz2yv6tpubpc6co/bafkreid4nlkqmw5pcbvk3467jqdbdthm4crz3esfmv7xl75w2eqrvvdnpa@jpeg" />
+                    <p>butterfly v tapeworm who will win?</p>
+                    <div class="banger-stats">
+                        <span class="stat">🔥 2.5k</span>
+                        <span class="stat">💭 61</span>
+                    </div>
+                </div>
+            </div>
+            <div class="banger-card">
+                <div class="update-content">
+                    <img class="banger-image" src="https://cdn.bsky.app/img/feed_thumbnail/plain/did:plc:yk4dd2qkboz2yv6tpubpc6co/bafkreih7nnso66b6pj6dr2qwbskrnei5eg6jb4hygjb7fdkn5fgnywhyjy@jpeg" />
+                    <p>backend team after keeping the servers online the last 3 days</p>
+                    <div class="banger-stats">
+                        <span class="stat">🔥 1.2k</span>
+                        <span class="stat">💭 26</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+<!-- 
+        <div class="mood-board">
+            <div class="mood-item">
+                <img src="/api/placeholder/150/150" alt="mood 1">
+            </div>
+            <div class="mood-item">
+                <img src="/api/placeholder/150/150" alt="mood 2">
+            </div>
+            <div class="mood-item">
+                <img src="/api/placeholder/150/150" alt="mood 3">
+            </div>
+        </div>
+ -->
+        <hr class="divider">
+
+        <div class="visitor-counter">
+            <p>you're visitor number</p>
+            <p>1337</p>
+        </div>
+    </div>
 </body>
 </html>

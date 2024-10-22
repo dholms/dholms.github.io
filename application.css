@@ -1,4 +1,16 @@
-html { 
+html {
+  background-color: #5a83c4;
+}
+
+.profile-img {
+  border-radius: 50%;
+  max-width: 15em;
+  border: 2px solid #e5eb71;
+  outline: none;
+  box-shadow: 0 0 20px #e5eb71;
+}
+
+/* html { 
   background: url(eden-alt.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -24,4 +36,4 @@ hr{
   height: 1px;
   background-color: #ccc;
   border: none;
-}
+} */
